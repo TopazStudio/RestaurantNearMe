@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
+use App\Util\RedisMapper\MappableInRedis;
 use Illuminate\Database\Eloquent\Model;
 
-class Restaurant extends Model
+class Restaurant extends Model implements MappableInRedis
 {
 
     /**
@@ -19,6 +20,15 @@ class Restaurant extends Model
         'DisLikes',
         'managerId'
     ];
+
+    public function getAttributeMap()
+    {
+        return [
+            'id',
+            'Name',
+            'Location'
+        ];
+    }
 
 //Restaurants
     //Cuisine
@@ -35,5 +45,4 @@ class Restaurant extends Model
     public function pictures(){
         return $this->morphMany('App\Models\Picture','pic');
     }
-
 }

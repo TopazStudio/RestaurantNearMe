@@ -2,10 +2,11 @@
 
 namespace App\Models;
 
+use App\Util\RedisMapper\MappableInRedis;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MappableInRedis
 {
     use Notifiable;
 
@@ -29,6 +30,17 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function getAttributeMap()
+    {
+        return [
+            'id',
+            'name',
+            'email',
+            'password',
+            'role'
+        ];
+    }
 
 //Relationships
     //restaurant

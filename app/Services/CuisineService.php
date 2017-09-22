@@ -9,6 +9,7 @@
 namespace App\Services;
 use App\Models\Cuisine;
 use App\Traits\HandlesImages;
+use App\Util\SessionUtil;
 use Illuminate\Http\Request;
 
 class CuisineService extends Service
@@ -23,15 +24,17 @@ class CuisineService extends Service
      * Used to fetch a Cuisine without any restriction.
      *
      * @param Request $request
-     * @return Cuisine|CuisineService
+     * @return Cuisine|CuisineService|bool
      * @internal param $id
      */
     public function addCuisine(Request $request){
 
+        $currentRestaurant = \Redis::hgetall(SessionUtil::getRedisSession() . ':user:restaurant');
+
         $cuisine = Cuisine::create([
-            'Name' => $request->name,
-            'Type' => $request->type,
-            'restaurantId' => auth()->user()->restaurant->id
+            'Name' => $request->Name,
+            'Type' => $request->Type,
+            'restaurantId' => $currentRestaurant['id']
         ]);
 
         if ($cuisine) $this->info['added'] = $cuisine->id;
@@ -47,6 +50,12 @@ class CuisineService extends Service
         return empty($this->errors);
     }
 
+    /**
+     * Used to fetch all Cuisine without any restriction.
+     *
+     * @return Cuisine|CuisineService
+     * @internal param $id
+     */
     public function getAll(){
         return Cuisine::all();
     }
@@ -64,18 +73,38 @@ class CuisineService extends Service
     /**
      * Used to update a Cuisine owned by the current user,
      *
+     * @param Request $request
      * @param $id
      * @return bool
      */
     public function updateCuisine(Request $request,$id){
-        $cuisine = Cuisine::where('id','=',$id);
-        if($cuisine->update($request->only('Name,Type'))){
-            $this->info['updated'] = $id;
-        }else{
-            $this->errors['update']['Not Updated'] = $id;
+        if($cuisine = $this->getCurrentsCuisine($id)) {
+            if ($cuisine->update($request->all())) {
+                $this->info['updated'] = $id;
+            } else {
+                $this->errors['update']['Not Updated'] = $id;
+            }
+        }
+        return empty($this->errors);
+    }
+
+    /**
+     * Get cuisine of current restaurant using id.
+     * @param $id
+     * @return Cuisine|bool
+     */
+    private function getCurrentsCuisine($id){
+        $currentRestaurant = \Redis::hgetall(SessionUtil::getRedisSession() . ':user:restaurant');
+
+        $cuisine = Cuisine::where('id','=',$id)
+            ->Where('restaurantId','=',$currentRestaurant['id']);
+
+        if(!$cuisine){
+            $this->errors['delete']['Not Found'] = $id;
+            return false;
         }
 
-        return empty($this->errors);
+        return $cuisine;
     }
 
     /**
@@ -85,13 +114,13 @@ class CuisineService extends Service
      * @return bool
      */
     public function deleteCuisine($id){
-        $cuisine = Cuisine::where('id','=',$id);
-        if($cuisine->delete()){
-            $this->info['deleted'] = $id;
-        }else{
-            $this->errors['delete']['Delete Failed'] = $id;
+        if($cuisine = $this->getCurrentsCuisine($id)) {
+            if ($cuisine->delete()) {
+                $this->info['deleted'] = $id;
+            } else {
+                $this->errors['delete']['Delete Failed'] = $id;
+            }
         }
-
         return empty($this->errors);
     }
 }

@@ -20,7 +20,8 @@ class CuisineController extends Controller
      */
     public function __construct(CuisineService $cuisineService)
     {
-        $this->middleware('auth',['except' => ['index','show']]);
+        //disable this when using apis
+//        $this->middleware('auth',['except' => ['index','show']]);
         $this->cuisineService = $cuisineService;
     }
 
@@ -55,8 +56,8 @@ class CuisineController extends Controller
     public function store(Request $request)
     {
         $this->validate($request,[
-            'name' => 'required|string',
-            'type' => 'required|string',
+            'Name' => 'required|string',
+            'Type' => 'required|string',
             'cuisinePic' => 'image|nullable|max:1999'
         ]);
 
@@ -105,6 +106,13 @@ class CuisineController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->validate($request,[
+            'Name' => 'required|string',
+            'Type' => 'required|string',
+            'cuisinePic' => 'image|nullable|max:1999'
+        ]);
+
+
         if($this->cuisineService->updateCuisine($request,$id)){
             return $this->response([
                 'success' => $this->cuisineService->info

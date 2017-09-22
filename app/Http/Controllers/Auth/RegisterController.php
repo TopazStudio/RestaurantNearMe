@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
 use App\Http\Controllers\Controller;
+use App\Util\RedisMapper\ModelMapper;
+use App\Util\SessionUtil;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
@@ -68,5 +71,27 @@ class RegisterController extends Controller
             'password' => bcrypt($data['password']),
             'role' => 'Manager'
         ]);
+    }
+
+    /**
+     * The user has been registered.
+     *
+     * @param Request|\Illuminate\Http\Request $request
+     * @param  mixed $user
+     * @return mixed
+     */
+    protected function registered(Request $request, $user)
+    {
+        //Save user
+        ModelMapper::mapModelInRedis($user,SessionUtil::newRedisSession() . ':user:current',null,false);
+
+
+        //Save restaurant
+        if ($restaurant = $user->restaurant)
+            ModelMapper::mapModelInRedis($restaurant,SessionUtil::newRedisSession() . ':user:restaurant',null,false);
+
+        return $this->response([
+            'message' => 'OK'
+        ],'dashboard.dashboard');
     }
 }

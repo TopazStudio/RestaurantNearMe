@@ -1,14 +1,13 @@
 <?php
 
-use Illuminate\Http\Request;
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+
+Route::group(['middleware' => ['session']],function (){
+
+    Auth::routes();
+
+    Route::resource('cuisine','CuisineController');
+
+    Route::resource('restaurants','RestaurantController');
 });
 
-
-Auth::routes();
-
-Route::resource('cuisine','CuisineController');
-
-Route::resource('restaurants','RestaurantController');
