@@ -32,8 +32,7 @@ class CuisineController extends Controller
      */
     public function index()
     {
-        //TODO: add cuisine view
-        return $this->response($this->cuisineService->getAll());
+        return $this->response($this->cuisineService->getAll(),'cuisine.cuisineTable');
     }
 
     /**
@@ -62,14 +61,14 @@ class CuisineController extends Controller
             'image' => 'image|nullable|max:1999'
         ]);
 
-        if($this->cuisineService->addCuisine($request)){
+        if($this->cuisineService->add($request)){
             return $this->response([
                 'success' => $this->cuisineService->info
-            ],'dashboard.dashboard');
+            ],'cuisine.cuisineTable');
         }else{
             return $this->response([
                 'error' => $this->cuisineService->errors
-            ],'dashboard.dashboard');
+            ],'cuisine.cuisineTable');
         }
 
 
@@ -78,24 +77,26 @@ class CuisineController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param Cuisine $cuisine
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\JsonResponse|\Illuminate\Http\Response|\Illuminate\View\View
-     * @internal param int $id
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response|\Illuminate\View\View
      */
-    public function show(Cuisine $cuisine)
+    public function show($id)
     {
-        return $this->response($cuisine);
+        return $this->response($this->cuisineService->get($id),'cuisine.cuisineView');
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  int $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\JsonResponse|\Illuminate\View\View
      */
     public function edit($id)
     {
-        //
+        return $this->response([
+            'mode' => 'edit',
+            'modal' => $this->cuisineService->get($id)
+        ],'cuisine.cuisineForm');
     }
 
     /**
@@ -114,14 +115,14 @@ class CuisineController extends Controller
         ]);
 
 
-        if($this->cuisineService->updateCuisine($request,$id)){
+        if($this->cuisineService->update($request,$id)){
             return $this->response([
                 'success' => $this->cuisineService->info
-            ],'dashboard.dashboard');
+            ],'cuisine.cuisineTable');
         }else{
             return $this->response([
                 'error' => $this->cuisineService->errors
-            ],'dashboard.dashboard');
+            ],'cuisine.cuisineTable');
         }
     }
 
@@ -133,14 +134,14 @@ class CuisineController extends Controller
      */
     public function destroy($id)
     {
-        if($this->cuisineService->deleteCuisine($id)){
+        if($this->cuisineService->delete($id)){
             return $this->response([
                 'success' => $this->cuisineService->info
-            ],'dashboard.dashboard');
+            ],'cuisine.cuisineTable');
         }else{
             return $this->response([
                 'error' => $this->cuisineService->errors
-            ],'dashboard.dashboard');
+            ],'cuisine.cuisineTable');
         }
     }
 }

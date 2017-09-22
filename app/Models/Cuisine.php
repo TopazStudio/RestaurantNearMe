@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use App\Util\AutoCRUD\Cruddable;
+use App\Util\SessionUtil;
 use Illuminate\Database\Eloquent\Model;
 
-class Cuisine extends Model
+class Cuisine extends Model implements Cruddable
 {
 
     /**
@@ -27,6 +29,21 @@ class Cuisine extends Model
         'restaurantId'
     ];
 
+    public static function crudSettings()
+    {
+        return[
+            'hasPicture'=>true,
+            'attributes' => [
+                'Name',
+                'Type'
+            ],
+            'relationships' => [
+                'restaurantId' => (\Redis::hgetall(SessionUtil::getRedisSession() . ':user:restaurant'))['id']
+            ],
+            'parentRel' => ['restaurantId' => (\Redis::hgetall(SessionUtil::getRedisSession() . ':user:restaurant'))['id']]
+        ];
+    }
+
 //Relationships
     public function relationships(){
         return [
@@ -43,5 +60,4 @@ class Cuisine extends Model
     public function pictures(){
         return $this->morphMany('App\Models\Picture','pic');
     }
-
 }

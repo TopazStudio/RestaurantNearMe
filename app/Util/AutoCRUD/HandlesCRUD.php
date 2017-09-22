@@ -167,7 +167,12 @@ trait HandlesCRUD
      * @internal param $id
      */
     public function getAll(){
-        return call_user_func([$this->getModelType(),'all']);
+        try{
+            return call_user_func([$this->getModelType(),'all']);
+        }catch (\Exception $e){
+            $this->errors['Get']['Get Failed'] = $e->getMessage();
+            return $this->errors;
+        }
     }
 
     /**
@@ -177,7 +182,12 @@ trait HandlesCRUD
      * @return Model
      */
     public function get($id){
-        return call_user_func_array([$this->getModelType(),'where'],['id','=',$id])->get();
+        try{
+            return call_user_func_array([$this->getModelType(),'where'],['id','=',$id])->get();
+        }catch (\Exception $e){
+            $this->errors['Get']['Get Failed'] = $e->getMessage();
+            return $this->errors;
+        }
     }
 
 }
