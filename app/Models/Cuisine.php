@@ -28,6 +28,12 @@ class Cuisine extends Model
     ];
 
 //Relationships
+    public function relationships(){
+        return [
+            ['App\Models\Restaurant'=>'restaurantId']
+        ];
+    }
+
     //restaurant
     public function restaurant(){
         return $this->belongsTo('App\Models\Restaurant','restaurantId');

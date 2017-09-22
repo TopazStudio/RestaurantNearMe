@@ -12,7 +12,7 @@ class SessionUtil
 
     /**
      * Create a special key to be used to identify
-     * user sessio in redis
+     * user session in redis
      *
      * @return string
     */
@@ -34,6 +34,9 @@ class SessionUtil
     }
 
     public static function getRedisSession(){
-        return env('APP_NAME') . ':' . session('session_key');
+//        return env('APP_NAME') . ':' . session('session_key');
+        //TODO: use session in getting redis session key
+        return env('APP_NAME') . ':' . 8049;
+
     }
 }

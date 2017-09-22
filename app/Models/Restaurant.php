@@ -2,10 +2,11 @@
 
 namespace App\Models;
 
-use App\Util\RedisMapper\MappableInRedis;
+use App\Util\AutoCRUD\Cruddable;
+use App\Util\SessionUtil;
 use Illuminate\Database\Eloquent\Model;
 
-class Restaurant extends Model implements MappableInRedis
+class Restaurant extends Model implements Cruddable
 {
 
     /**
@@ -21,12 +22,17 @@ class Restaurant extends Model implements MappableInRedis
         'managerId'
     ];
 
-    public function getAttributeMap()
-    {
-        return [
-            'id',
-            'Name',
-            'Location'
+    public static function crudSettings(){
+        return[
+            'hasPicture'=>true,
+            'attributes' => [
+                'Name',
+                'Location'
+            ],
+            'relationships' => [
+                'managerId' => (\Redis::hgetall(SessionUtil::getRedisSession() . ':user:current'))['id']
+            ],
+            'parentRel' => ['managerId' => (\Redis::hgetall(SessionUtil::getRedisSession() . ':user:current'))['id']]
         ];
     }
 

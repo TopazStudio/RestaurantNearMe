@@ -20,8 +20,8 @@ class CuisineController extends Controller
      */
     public function __construct(CuisineService $cuisineService)
     {
-        //disable this when using apis
-//        $this->middleware('auth',['except' => ['index','show']]);
+        if (env('APP_ENV') != 'development')
+            $this->middleware('auth',['except' => ['index','show']]);
         $this->cuisineService = $cuisineService;
     }
 
@@ -32,6 +32,7 @@ class CuisineController extends Controller
      */
     public function index()
     {
+        //TODO: add cuisine view
         return $this->response($this->cuisineService->getAll());
     }
 
@@ -58,7 +59,7 @@ class CuisineController extends Controller
         $this->validate($request,[
             'Name' => 'required|string',
             'Type' => 'required|string',
-            'cuisinePic' => 'image|nullable|max:1999'
+            'image' => 'image|nullable|max:1999'
         ]);
 
         if($this->cuisineService->addCuisine($request)){
@@ -102,7 +103,7 @@ class CuisineController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\JsonResponse|\Illuminate\Http\Response|\Illuminate\View\View
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response|\Illuminate\View\View
      */
     public function update(Request $request, $id)
     {
