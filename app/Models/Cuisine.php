@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
-use App\Util\AutoCRUD\Cruddable;
 use App\Util\SessionUtil;
+use App\Util\AutoCRUD\Cruddable;
 use Illuminate\Database\Eloquent\Model;
+use Elasticquent\ElasticquentTrait;
 
 class Cuisine extends Model implements Cruddable
 {
+    use ElasticquentTrait;
 
     /**
      * The table associated with the model.
@@ -29,6 +31,12 @@ class Cuisine extends Model implements Cruddable
         'restaurantId'
     ];
 
+//CRUD
+    /**
+     * Settings used for automatic CRUD function.
+     *
+     * @return array
+    */
     public static function crudSettings()
     {
         return[
@@ -42,6 +50,44 @@ class Cuisine extends Model implements Cruddable
             ],
             'parentRel' => ['restaurantId' => (\Redis::hgetall(SessionUtil::getRedisSession() . ':user:restaurant'))['id']]
         ];
+    }
+
+//INDEXING
+    /**
+     * Model's index type
+     *
+     * @var string
+     */
+    public $docTypeName;
+
+    //TODO: make this its own table then create a relationship
+    public static $types = [
+        'Bevourage',
+        'Meat',
+        'Full Coarse'
+    ];
+
+    function getIndexName()
+    {
+        return 'cuisine_catalog';
+    }
+
+    function getTypeName()
+    {
+        return $this->docTypeName;
+    }
+
+    public static function index(){
+        foreach (self::$types as $type){
+            $foods = self::where('Type','=',$type)->get();
+            if(!empty($foods)){
+                foreach ($foods as $food){
+                    $food->docTypeName = $type;
+                }
+                $foods->addToIndex();
+            }
+        }
+        return true;
     }
 
 //Relationships
