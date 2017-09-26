@@ -79,12 +79,12 @@ class Cuisine extends Model implements Cruddable
 
     public static function index(){
         foreach (self::$types as $type){
-            $foods = self::where('Type','=',$type)->get();
-            if(!empty($foods)){
-                foreach ($foods as $food){
-                    $food->docTypeName = $type;
+            $cuisines = self::where('Type','=',$type)->get();
+            if(!empty($cuisines)){
+                foreach ($cuisines as $cuisine){
+                    $cuisine->docTypeName = $type;
                 }
-                $foods->addToIndex();
+                $cuisines->addToIndex();
             }
         }
         return true;

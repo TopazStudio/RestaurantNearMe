@@ -14,12 +14,33 @@ use Illuminate\Http\Request;
 class SearchController extends Controller
 {
     /**
+     * Determine the enitity being searched for
+     *
+     * @param $entity
+     * @return string
+     */
+    private function route($entity){
+        switch ($entity){
+            case 'cuisine':
+                return 'App\Models\Cuisine';
+                break;
+            case  'restaurant':
+                return 'App\Models\Restaurant';
+                break;
+            default:
+                return 'App\Models\Cuisine';
+                break;
+        }
+    }
+
+    /**
      * Index the entities in storage for searching.
      *
+     * @param $entity
      * @return \Illuminate\Http\JsonResponse
-    */
-    public function index(){
-        if (Cuisine::index()){
+     */
+    public function index($entity){
+        if (call_user_func([$this->route($entity),'index'])){
             return $this->successResponse();
         }
         return $this->errorResponse();
@@ -28,11 +49,12 @@ class SearchController extends Controller
     /**
      * Do a complex search on the entity
      *
+     * @param $entity
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function complex(Request $request){
-        if ($foods = Cuisine::complexSearch($request->all())){
+    public function complex($entity,Request $request){
+        if ($foods = call_user_func([$this->route($entity),'complexSearch'],$request->all())){
             return response()->json([
                 'took' => $foods->took(),
                 'totalHits' => $foods->totalHits(),
@@ -46,14 +68,13 @@ class SearchController extends Controller
     /**
      * Do a simple search on the entity
      *
+     * @param $entity
      * @param $term
      * @return \Illuminate\Http\JsonResponse
      */
-    public function simple($term){
+    public function simple($entity,$term){
         //TODO: fix simple search
-        $f = new Cuisine();
-//        $f->docTypeName = 'Bevourage';
-        if ($foods = $f::search($term)){
+        if ($foods = call_user_func([$this->route($entity),'search'],$term)){
             return response()->json([
                 'took' => $foods->took(),
                 'totalHits' => $foods->totalHits(),

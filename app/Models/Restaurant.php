@@ -4,10 +4,12 @@ namespace App\Models;
 
 use App\Util\AutoCRUD\Cruddable;
 use App\Util\SessionUtil;
+use Elasticquent\ElasticquentTrait;
 use Illuminate\Database\Eloquent\Model;
 
 class Restaurant extends Model implements Cruddable
 {
+    use ElasticquentTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -34,6 +36,19 @@ class Restaurant extends Model implements Cruddable
             ],
             'parentRel' => ['managerId' => (\Redis::hgetall(SessionUtil::getRedisSession() . ':user:current'))['id']]
         ];
+    }
+
+//INDEXING
+
+    function getIndexName()
+    {
+        return 'restaurants';
+    }
+
+    public static function index(){
+        $restaurants = self::all();
+        $restaurants->addToIndex();
+        return true;
     }
 
 //Restaurants

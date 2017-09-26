@@ -13,15 +13,15 @@ Route::group(['middleware' => ['session']],function (){
 });
 
 Route::group(['prefix'=>'/search'],function (){
-   Route::get('/index',[
+   Route::get('/{entity}/index',[
        'uses'=>'SearchController@index'
    ]);
 
-    Route::post('/complex',[
+    Route::post('/{entity}/complex',[
         'uses'=>'SearchController@complex'
     ]);
 
-    Route::get('/simple/{term}',[
+    Route::get('/{entity}/simple/{term}',[
         'uses'=>'SearchController@simple'
     ]);
 });
