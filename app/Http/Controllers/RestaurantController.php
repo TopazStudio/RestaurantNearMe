@@ -49,17 +49,19 @@ class RestaurantController extends Controller
         $this->validate($request,[
             'Name' => 'required|string',
             'Location' => 'required|string',
+            'Longitude' => 'required|string',
+            'Latitude' => 'required|string',
             'image' => 'image|nullable|max:1999'
         ]);
 
         if($this->restaurantService->add($request)){
             return $this->response([
                 'success' => $this->restaurantService->info
-            ],'restaurant.restaurantTable');
+            ],'dashboard.dashboard');
         }else{
             return $this->response([
                 'error' => $this->restaurantService->errors
-            ],'restaurant.restaurantTable');
+            ],'dashboard.dashboard');
         }
     }
 
@@ -98,8 +100,10 @@ class RestaurantController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request,[
-            'Name' => 'required|string',
-            'Location' => 'required|string',
+            'Name' => 'nullable|string',
+            'Location' => 'nullable|string',
+            'Longitude' => 'nullable|string',
+            'Latitude' => 'nullable|string',
             'restaurantPic' => 'image|nullable|max:1999'
         ]);
 
@@ -107,11 +111,11 @@ class RestaurantController extends Controller
         if($this->restaurantService->update($request,$id)){
             return $this->response([
                 'success' => $this->restaurantService->info
-            ],'restaurant.restaurantTable');
+            ],'dashboard.dashboard');
         }else{
             return $this->response([
                 'error' => $this->restaurantService->errors
-            ],'restaurant.restaurantTable');
+            ],'dashboard.dashboard');
         }
     }
 

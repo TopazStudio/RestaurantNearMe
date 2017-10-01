@@ -485,7 +485,7 @@ li a:hover {
 }
 
 //INNER CSS
-input[type=text] {
+#search input[type=text] {
     width: 700px;
     box-sizing: border-box;
     border: 2px solid #FFB03B;
@@ -497,7 +497,7 @@ input[type=text] {
     transition: width 0.4s ease-in-out;
 }
 
-input[type=text]:focus {
+#search input[type=text]:focus {
     width: 100%;
 }
 #subscribe,
@@ -728,4 +728,19 @@ p.change_link{
         opacity: 0;
         transform: translateX(-20px);
     }
+}
+
+#map{
+    height: 400px;
+    width: 100%;
+    cursor: pointer;
+}
+#locQuery{
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    background-color: white;
+    border-radius: 4px;
+    padding: 10px;
+    z-index: 1000;
 }

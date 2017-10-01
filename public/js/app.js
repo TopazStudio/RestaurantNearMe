@@ -11013,6 +11013,7 @@ module.exports = __webpack_require__(33);
 /* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
+//JQUERY AND BOOTSTRAP
 try {
     window.$ = window.jQuery = __webpack_require__(2);
     __webpack_require__(10);
@@ -11020,13 +11021,18 @@ try {
     __webpack_require__(12);
 } catch (e) {}
 
+//AXIOS
 window.axios = __webpack_require__(13);
-window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-var token = document.head.querySelector('meta[name="csrf-token"]');
-if (token) {
-    window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
-} else {
-    console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
+
+//TODO: remove to allow adding of headers when need
+function addAxiosHeaders() {
+    window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+    var token = document.head.querySelector('meta[name="csrf-token"]');
+    if (token) {
+        window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
+    } else {
+        console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
+    }
 }
 
 //CUSTOM JS

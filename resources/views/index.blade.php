@@ -48,7 +48,7 @@
                         <h2>Find restaurants near you.</h2>
                     </div>
                     <div id="search" class="col-xs-12 text-center" style="padding:60px;">
-                        <input type="text" name="search" placeholder="Search Restaurants and Cuisine">
+                        <input type="text" name="search" placeholder="Search Restaurants, Cuisine and Locations">
                     </div>
                 </div>
             </div>
