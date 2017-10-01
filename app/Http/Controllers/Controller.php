@@ -50,7 +50,7 @@ class Controller extends BaseController
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\JsonResponse|\Illuminate\View\View
      */
     public function response($response = '',$view = ''){
-        if (env('APP_ENV') == 'development'){
+        if (env('APP_ENV') == 'backend_development'){
             return response()->json($response);
         }else{
             return view($view)->with($response);

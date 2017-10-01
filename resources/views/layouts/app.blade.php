@@ -16,11 +16,11 @@
 <body>
     <div id="app">
         @include('inc.messages')
-        @include('inc.nav')
 
         @yield('content')
-    </div>
 
+        @include('inc.footer')
+    </div>
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
 </body>

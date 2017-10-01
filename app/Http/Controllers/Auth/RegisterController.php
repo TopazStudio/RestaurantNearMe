@@ -90,8 +90,8 @@ class RegisterController extends Controller
         if ($restaurant = $user->restaurant)
             ModelMapper::mapModelInRedis($restaurant,SessionUtil::newRedisSession() . ':user:restaurant',null,false);
 
-        return $this->response([
+        /*return $this->response([
             'message' => 'OK'
-        ],'dashboard.dashboard');
+        ],'dashboard.dashboard');*/
     }
 }
