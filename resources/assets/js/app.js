@@ -1,22 +1,82 @@
+try {
+    window.$ = window.jQuery = require('jquery');
+    require('jquery.easing');
+    require('./jquery.mixitup.min');
+    require('bootstrap-sass');
+} catch (e) {}
 
-/**
- * First we will load all of this project's JavaScript dependencies which
- * includes Vue and other libraries. It is a great starting point when
- * building robust, powerful web applications using Vue and Laravel.
- */
 
-require('./bootstrap');
+window.axios = require('axios');
+window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+let token = document.head.querySelector('meta[name="csrf-token"]');
+if (token) {
+    window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
+} else {
+    console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
+}
 
-window.Vue = require('vue');
+//CUSTOM JS
+function showPopup() {
 
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
+    document
+        .getElementById('login')
+        .style.display = 'block';
+}
 
-Vue.component('example', require('./components/Example.vue'));
+/*document
+    .getElementById('popupclick')
+    .addEventListener('click', showPopup(), false);*/
+function closePopup(){
+    document
+        .getElementById('login')
+        .style.display = 'none';
+}
 
-const app = new Vue({
-    el: '#app'
-});
+function showPopup1() {
+
+    document
+        .getElementById('register')
+        .style.display = 'block';
+}
+
+/*document
+    .getElementById('popuponclick')
+    .addEventListener('click', showPopup(), false);*/
+function closePopup1(){
+    document
+        .getElementById('register')
+        .style.display = 'none';
+}
+
+
+(function ($) {
+    // Instantiate MixItUp:
+    $('#Container').mixItUp();
+
+    // Add smooth scrolling to all links in navbar + footer link
+    $(".sidenav a").on('click', function(event) {
+        var hash = this.hash;
+        if( hash ) {
+            event.preventDefault();
+            $('html, body').animate({
+                scrollTop: $(hash).offset().top
+            }, 900, function(){
+                window.location.hash = hash;
+            });
+        }
+
+    });
+
+    $(".menu-icon").on('click',function (event) {
+        document.getElementById("mySidenav").style.width = "250px";
+    });
+
+    $(".closebtn").on('click',function (event) {
+        document.getElementById("mySidenav").style.width = "0";
+    })
+
+})(jQuery);
+
+
+
+
