@@ -23,6 +23,10 @@
     </div>
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
+<<<<<<< HEAD
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.min.js"></script>
+=======
     <script src="{{ asset('js/location.js') }}"></script>
+>>>>>>> 1148d204acd314c83734cba0d8665233799c5865
 </body>
 </html>
