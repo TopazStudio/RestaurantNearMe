@@ -19,6 +19,8 @@ class Restaurant extends Model implements Cruddable
     protected $fillable = [
         'Name',
         'Location',
+        'Longitude',
+        'Latitude',
         'Likes',
         'DisLikes',
         'managerId'
@@ -29,7 +31,9 @@ class Restaurant extends Model implements Cruddable
             'hasPicture'=>true,
             'attributes' => [
                 'Name',
-                'Location'
+                'Location',
+                'Longitude',
+                'Latitude',
             ],
             'relationships' => [
                 'managerId' => (\Redis::hgetall(SessionUtil::getRedisSession() . ':user:current'))['id']
@@ -48,6 +52,8 @@ class Restaurant extends Model implements Cruddable
     public static function index(){
         $restaurants = self::all();
         $restaurants->addToIndex();
+        dd($restaurants);
+
         return true;
     }
 

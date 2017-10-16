@@ -14,7 +14,7 @@ return array(
     */
 
     'config' => [
-        'hosts'     => ['localhost:9200'],
+        'hosts'     => ['https://19rj8gg8gv:lomiumvvvv@first-cluster-7030002112.eu-central-1.bonsaisearch.net'],
         'retries'   => 5,
     ],
 
