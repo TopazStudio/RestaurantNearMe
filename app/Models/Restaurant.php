@@ -52,6 +52,8 @@ class Restaurant extends Model implements Cruddable
     public static function index(){
         $restaurants = self::all();
         $restaurants->addToIndex();
+        dd($restaurants);
+
         return true;
     }
 

@@ -71,11 +71,8 @@
                                     <button type="submit" class="btn btn-primary">
                                         Register
                                     </button>
-
-                                    <p>
-                                        Already a member ?
-                                        <a href="{{route('login')}}" class="to_register"> Go and log in </a>
-                                    </p>
+                                    Already a member ?
+                                    <a href="{{route('login')}}" class="to_register"> Go and log in </a>
                                 </div>
                             </div>
                         </form>

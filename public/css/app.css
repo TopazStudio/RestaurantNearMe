@@ -1,4 +1,4 @@
-@charset "UTF-8";
+@import url(https://fonts.googleapis.com/css?family=Satisfy);@charset "UTF-8";
 /*!
  *  Font Awesome 4.7.0 by @davegandy - http://fontawesome.io - @fontawesome
  *  License - http://fontawesome.io/license (Font: SIL OFL 1.1, CSS: MIT License)
@@ -11614,7 +11614,7 @@ body {
   line-height: 1.52;
   color: #717f86;
   font-size: 16px;
-  font-family: 'lucida calligraphy', sans-serif;
+  font-family: 'lucida calligraphy', 'Satisfy',sans-serif;
   font-weight: 400;
   overflow-x: hidden;
 }
@@ -11649,19 +11649,19 @@ table {
 }
 
 #banner h2 {
-  font-family: 'lucida calligraphy', sans-serif;
+  font-family: 'lucida calligraphy','Satisfy', sans-serif;
   font-size: 45px;
   color: #FFB03B;
 }
 
 #banner p {
-  font-family: 'lucida calligraphy', sans-serif;
+  font-family: 'lucida calligraphy', 'Satisfy',sans-serif;
   color: #fcfcfc;
   font-size: 34px;
 }
 
 .section-padding {
-  padding: 60px 0px;
+  padding: 60px 0;
 }
 
 .logo-name {
@@ -11817,12 +11817,11 @@ table {
 
 .contacts-btn {
   background-color: #FFB03B !important;
-  color: #ffffff !important;
   width: 170px;
   height: 54px;
   border-radius: 3px;
   font-size: 16px;
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Roboto', 'Satisfy',sans-serif;
   font-weight: normal;
   text-transform: capitalize;
   border: 0px;
@@ -11938,7 +11937,7 @@ table {
 .btn-read-more {
   background: #FFB03B;
   padding: 7px 19px;
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Roboto','Satisfy', sans-serif;
   font-size: 12px;
   line-height: 17px;
   font-weight: 400;
@@ -11966,7 +11965,7 @@ table {
 
 .menu-restaurant .menu-title {
   float: left;
-  font-family: Montserrat,arial;
+  font-family: Montserrat,'Satisfy', sans-serif;
   text-transform: uppercase;
   letter-spacing: 1px;
   color: #FFB03B;
@@ -11991,7 +11990,7 @@ table {
   display: block;
   float: left;
   color: #B1B1B1;
-  font-family: Satisfy,'Open Sans',arial;
+  font-family: 'Satisfy', sans-serif;
   font-size: 1.2rem;
 }
 

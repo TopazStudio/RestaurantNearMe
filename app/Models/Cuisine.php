@@ -64,7 +64,7 @@ class Cuisine extends Model implements Cruddable
     public static $types = [
         'Bevourage',
         'Meat',
-        'Full Coarse'
+        'Full Coarse',
     ];
 
     function getIndexName()

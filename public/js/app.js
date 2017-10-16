@@ -11084,6 +11084,25 @@ function closePopup1() {
     $(".closebtn").on('click', function (event) {
         document.getElementById("mySidenav").style.width = "0";
     });
+
+    $("#mainSearch").on('keydown', function (event) {
+        if (event.keyCode === 13) {
+            addAxiosHeaders();
+            axios.post('http://restaurantnearme.dev/api/search/cuisine/complex', {
+                "body": {
+                    "query": {
+                        "match": {
+                            "Name": $("#mainSearch").val()
+                        }
+                    }
+                }
+
+            }).then(function (response) {
+                var hits = response.data.hits;
+                console.log(hits);
+            });
+        }
+    });
 })(jQuery);
 
 /***/ }),
